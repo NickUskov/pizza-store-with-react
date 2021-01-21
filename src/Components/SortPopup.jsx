@@ -1,9 +1,8 @@
 import React from "react";
 
 const sortPopup = React.memo(
-  function ({items}) {
+  function ({items, activeSortType, onClickSortType}) {
     const [visiblePopup, setVisiblePopup] = React.useState(false)
-    const [activeItem, setActiveItem] = React.useState(0)
     const sortRef = React.useRef()
 
     React.useEffect(() => {
@@ -19,8 +18,8 @@ const sortPopup = React.memo(
       setVisiblePopup(!visiblePopup)
     }
 
-    const onSelectItem = (index) => {
-      setActiveItem(index)
+    const onSelectItem = ({type}) => {
+      onClickSortType(type)
     }
 
     return (
@@ -39,14 +38,14 @@ const sortPopup = React.memo(
             />
           </svg>
           <b>Сортировка по:</b>
-          <span onClick={toggleVisible}>{items[activeItem].name}</span>
+          <span onClick={toggleVisible}>{items.find(el => el.type === activeSortType).name}</span>
         </div>
         {visiblePopup && (<div className="sort__popup">
           <ul>
             {items?.map((item, index) => (
               <li key={item.type + index}
-                  onClick={() => onSelectItem(index)}
-                  className={`${index === activeItem ? 'active' : ''}`}>{item.name}
+                  onClick={() => onSelectItem(item)}
+                  className={`${index === activeSortType ? 'active' : ''}`}>{item.name}
               </li>
             ))}
           </ul>

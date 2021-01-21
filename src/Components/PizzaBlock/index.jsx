@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types"
 import classnames from 'classnames'
+import {Button} from "../index";
+import {addPizzaToCart} from "../../redux/actions/cart";
 
-function PizzaBlock({pizza}) {
+
+function PizzaBlock({pizza, onClickAddPizza}) {
   const types = ['Тонкое', 'Традиционное']
   const sizes = [26, 30, 40]
   const [activeType, setActiveType] = React.useState(pizza.types[0])
-  const [activeSize, setActiveSize] = React.useState(pizza.sizes[0])
+  const [activeSize, setActiveSize] = React.useState(0)
 
   const onSelectType = (index) => {
     setActiveType(index)
@@ -55,7 +58,7 @@ function PizzaBlock({pizza}) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {pizza.price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button onClick={() => onClickAddPizza({pizza}, sizes[activeSize], types[activeType])} outline add>
           <svg
             width="12"
             height="12"
@@ -70,7 +73,7 @@ function PizzaBlock({pizza}) {
           </svg>
           <span>Добавить</span>
           <i>2</i>
-        </div>
+        </Button>
       </div>
     </div>
   )

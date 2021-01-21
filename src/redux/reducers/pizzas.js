@@ -11,6 +11,12 @@ const pizzas = (state = initialState, action) => {
       isLoaded: true
     }
   }
+  if(action.type === 'SET_IS_LOADING') {
+    return {
+      ...state,
+      isLoaded: false
+    }
+  }
   return state
 }
 
